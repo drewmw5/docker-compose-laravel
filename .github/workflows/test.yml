@@ -44,6 +44,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
+      - name: Git Clone
+        run: git clone htttps://github.com/drewmw5/laraplace src
+
       - name: Install Composer dependencies
         run: cd src && composer install --prefer-dist --no-interaction --no-progress
 
