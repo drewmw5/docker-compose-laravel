@@ -169,18 +169,18 @@ jobs:
         networks:
           - laravel
 
-  phpmyadmin:
-   image: phpmyadmin
-   restart: always
-   depends_on:
-     - mariadb
-   ports:
-    - ${PHPMYADMIN_IP}:80
-   networks:
-    - laravel
-   environment:
-    - PMA_ARBITRARY=1
-    - PMA_HOST=mariadb
+      phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        depends_on:
+          - mariadb
+        ports:
+          - ${PHPMYADMIN_IP}:80
+        networks:
+          - laravel
+        environment:
+          - PMA_ARBITRARY=1
+          - PMA_HOST=mariadb
 
     steps:
       - name: Checkout code
