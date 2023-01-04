@@ -43,9 +43,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
-
-      - name: Git Clone
-        run: git clone https://github.com/drewmw5/laraplace src
+          submodules: recursive
 
       - name: Install Composer dependencies
         run: cd src && composer install --prefer-dist --no-interaction --no-progress
