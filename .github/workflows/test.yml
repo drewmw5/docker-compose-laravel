@@ -30,7 +30,6 @@ jobs:
         ports:
           - ${APACHE_HTTP_IP}:80
           - ${APACHE_HTTPS_IP}:443
-        restart: always
         environment:
           APP_FQDN: ${APP_FQDN}
         volumes:
@@ -51,7 +50,6 @@ jobs:
 
       mariadb:
         image: mariadb:latest
-        restart: unless-stopped
         tty: true
         ports:
           - ${MARIADB_IP}:3306
@@ -97,7 +95,6 @@ jobs:
 
       redis:
         image: redislabs/rejson:latest
-        restart: unless-stopped
         volumes:
           - ./dockerfiles/redis/data:/data
         ports:
@@ -135,7 +132,6 @@ jobs:
 
       nginx:
         image: nginx:stable-alpine
-        restart: always
         environment:
           APP_FQDN: ${APP_FQDN}
           HTTP_IP: ${NGINX_HTTP_IP}
