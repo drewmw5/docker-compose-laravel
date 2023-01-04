@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - react
+      - dev
   pull_request:
   schedule:
     - cron: '0 0 * * *'
