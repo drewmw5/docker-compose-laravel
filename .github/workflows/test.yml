@@ -24,7 +24,7 @@ jobs:
     
     services:
 
-      mysql:
+      mariadb:
         image: mysql:5.7
         env:
           MYSQL_USER: user
