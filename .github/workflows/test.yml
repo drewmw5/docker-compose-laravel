@@ -45,16 +45,16 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: cd src && composer install --prefer-dist --no-interaction --no-progress
 
       - name: Copy environment file
-        run: cp .env.example .env
+        run: cp .env.example src/.env
 
       - name: Generate app key
-        run: php artisan key:generate
+        run: cd src && php artisan key:generate
         
       - name: Run Testsuite
-        run: vendor/bin/phpunit tests/
+        run: cd src && vendor/bin/phpunit tests/
 
       - name: NPM Run Build
-        run: npm install && npm run build
+        run: cd src && npm install && npm run build
