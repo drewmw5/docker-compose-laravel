@@ -31,6 +31,7 @@ jobs:
           MYSQL_PASSWORD: secret
           MYSQL_ROOT_PASSWORD: secret
           MYSQL_DATABASE: laravel
+          MYSQL_DB: 127.0.0.1
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
