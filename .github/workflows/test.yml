@@ -36,6 +36,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -43,7 +45,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
-          submodules: recursive
 
       - name: Install Composer dependencies
         run: cd src && composer install --prefer-dist --no-interaction --no-progress
