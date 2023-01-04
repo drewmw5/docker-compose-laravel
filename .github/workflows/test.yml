@@ -33,8 +33,6 @@ jobs:
           - 3306:3306
         volumes:
           - ./src/storage/mysql/:/var/lib/mysql
-        networks:
-          - laravel
 
     steps:
       - name: Checkout code
