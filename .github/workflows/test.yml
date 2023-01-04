@@ -55,8 +55,8 @@ jobs:
       - name: Generate app key
         run: cd src && php artisan key:generate
         
-      - name: Run Testsuite
-        run: cd src && vendor/bin/phpunit tests/
-
       - name: NPM Run Build
         run: cd src && npm install && npm run build
+        
+      - name: Run Testsuite
+        run: cd src && vendor/bin/phpunit tests/
