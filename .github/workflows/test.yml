@@ -45,7 +45,7 @@ jobs:
           coverage: none
 
       - name: Git Clone
-        run: git clone htttps://github.com/drewmw5/laraplace src
+        run: git clone https://github.com/drewmw5/laraplace src
 
       - name: Install Composer dependencies
         run: cd src && composer install --prefer-dist --no-interaction --no-progress
