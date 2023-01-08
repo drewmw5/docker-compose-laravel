@@ -1,5 +1,5 @@
 server {
-    listen ${HTTP_IP};
+    listen ${HTTP_PORT};
 
     server_name $server_name;
 
@@ -17,7 +17,7 @@ server {
 }
 
 server {
-    listen ${HTTPS_IP} ssl;
+    listen ${HTTPS_PORT} ssl;
 
     server_name $server_name;
 
@@ -52,7 +52,7 @@ server {
         proxy_set_header X-Forwarded-Proto https;
         proxy_set_header X-Forwarded-Host $server_name;
 
-        proxy_pass             http://websockets:6001;
+        proxy_pass             http://websockets:${WS_PORT};
         # THIS IS IMPORTANT, host is container name
         proxy_read_timeout     60;
         proxy_connect_timeout  60;
