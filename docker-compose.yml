@@ -23,7 +23,7 @@ services:
       - redis
       - websockets
       - artisan
-      - nginx
+      # - nginx
       # - certbot
       # - mailhog
       # - phpmyadmin
@@ -112,25 +112,25 @@ services:
       - laravel
     user: 1000:1000
 
-  nginx:
-    image: nginx:stable-alpine
-    restart: always
-    environment:
-      APP_FQDN: ${APP_FQDN}
-      HTTP_PORT: ${NGINX_HTTP_PORT}
-      HTTPS_PORT: ${NGINX_HTTPS_PORT}
-      WS_PORT: ${LARAVEL_WEBSOCKETS_PORT}
-    volumes:
-      - ./src:/var/www/html:delegated
-      - ./dockerfiles/nginx/logs:/var/log/nginx
-      - ./dockerfiles/nginx/templates/:/etc/nginx/templates
-      - ./dockerfiles/localhost/:/etc/letsencrypt/live/${APP_FQDN}/
-      - /etc/letsencrypt/:/etc/letsencrypt/
-    expose:
-      - ${NGINX_HTTP_PORT}
-      - ${NGINX_HTTPS_PORT}
-    networks:
-      - laravel
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   restart: always
+  #   environment:
+  #     APP_FQDN: ${APP_FQDN}
+  #     HTTP_PORT: ${NGINX_HTTP_PORT}
+  #     HTTPS_PORT: ${NGINX_HTTPS_PORT}
+  #     WS_PORT: ${LARAVEL_WEBSOCKETS_PORT}
+  #   volumes:
+  #     - ./src:/var/www/html:delegated
+  #     - ./dockerfiles/nginx/logs:/var/log/nginx
+  #     - ./dockerfiles/nginx/templates/:/etc/nginx/templates
+  #     - ./dockerfiles/localhost/:/etc/letsencrypt/live/${APP_FQDN}/
+  #     - /etc/letsencrypt/:/etc/letsencrypt/
+  #   expose:
+  #     - ${NGINX_HTTP_PORT}
+  #     - ${NGINX_HTTPS_PORT}
+  #   networks:
+  #     - laravel
 
   # certbot:
   #    image: certbot/certbot:latest
