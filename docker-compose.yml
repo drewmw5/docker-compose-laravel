@@ -8,9 +8,6 @@ services:
     build:
       context: ./dockerfiles
       dockerfile: apache.dockerfile
-    ports:
-      - ${APACHE_HTTP_PORT}:80
-      - ${APACHE_HTTPS_PORT}:443
     restart: always
     environment:
       APP_FQDN: ${APP_FQDN}
@@ -27,9 +24,9 @@ services:
       - websockets
       - artisan
       - nginx
-      - certbot
-      - mailhog
-      - phpmyadmin
+      # - certbot
+      # - mailhog
+      # - phpmyadmin
     networks:
       - laravel
 
@@ -37,8 +34,8 @@ services:
     image: mariadb:latest
     restart: unless-stopped
     tty: true
-    ports:
-      - ${DB_PORT}:3306
+    expose:
+      - ${DB_PORT}
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -69,10 +66,8 @@ services:
       - ./src/storage/mysql:/var/lib/mysql
       - ./dockerfiles/localhost/:/var/www/certs
       - ./dockerfiles/npm/logs/:/root/.npm/_logs/
-    ports:
-      - 3000:3000
-      - 13714:13714
-      - ${NODE_PORT}:5173
+    expose:
+      - ${NODE_PORT}
     working_dir: /var/www/html
     entrypoint: ['npm']
     networks:
@@ -84,16 +79,16 @@ services:
     restart: unless-stopped
     volumes:
       - ./dockerfiles/redis/data:/data
-    ports:
-      - ${REDIS_PORT}:6379
+    expose:
+      - ${REDIS_PORT}
     networks:
       - laravel
 
   websockets:
     image: php:8.1.4RC1-fpm-alpine
     restart: unless-stopped
-    ports:
-      - ${LARAVEL_WEBSOCKETS_PORT}:${LARAVEL_WEBSOCKETS_PORT}
+    expose:
+      - ${LARAVEL_WEBSOCKETS_PORT}
     volumes:
       - ./src/:/var/www/html:delegated
       - ./dockerfiles/localhost/:/var/www/certs
@@ -131,38 +126,38 @@ services:
       - ./dockerfiles/nginx/templates/:/etc/nginx/templates
       - ./dockerfiles/localhost/:/etc/letsencrypt/live/${APP_FQDN}/
       - /etc/letsencrypt/:/etc/letsencrypt/
-    ports:
-      - ${NGINX_HTTP_PORT}:${NGINX_HTTP_PORT}
-      - ${NGINX_HTTPS_PORT}:${NGINX_HTTPS_PORT}
+    expose:
+      - ${NGINX_HTTP_PORT}
+      - ${NGINX_HTTPS_PORT}
     networks:
       - laravel
 
-  certbot:
-     image: certbot/certbot:latest
-     command: certonly --webroot --webroot-path=/var/www/html/public --email ${CERTBOT_EMAIL} --agree-tos --no-eff-email -d ${APP_FQDN} -v
-     volumes:
-       - ./src/:/var/www/html:delegated
-       - /etc/letsencrypt/:/etc/letsencrypt/
-       - ./dockerfiles/certbot/logs/:/var/log/letsencrypt
-       - ./dockerfiles/certbot/data:/usr/share/nginx/html/letsencrypt
+  # certbot:
+  #    image: certbot/certbot:latest
+  #    command: certonly --webroot --webroot-path=/var/www/html/public --email ${CERTBOT_EMAIL} --agree-tos --no-eff-email -d ${APP_FQDN} -v
+  #    volumes:
+  #      - ./src/:/var/www/html:delegated
+  #      - /etc/letsencrypt/:/etc/letsencrypt/
+  #      - ./dockerfiles/certbot/logs/:/var/log/letsencrypt
+  #      - ./dockerfiles/certbot/data:/usr/share/nginx/html/letsencrypt
 
-  mailhog:
-    image: mailhog/mailhog:latest
-    ports:
-      - ${MAIL_PORT}:1025
-      - ${MAILHOG_PORT}:8025
-    networks:
-      - laravel
+  # mailhog:
+  #   image: mailhog/mailhog:latest
+  #   ports:
+  #     - ${MAIL_PORT}:1025
+  #     - ${MAILHOG_PORT}:8025
+  #   networks:
+  #     - laravel
 
-  phpmyadmin:
-   image: phpmyadmin
-   restart: always
-   depends_on:
-     - mariadb
-   ports:
-    - ${PHPMYADMIN_PORT}:80
-   networks:
-    - laravel
-   environment:
-    - PMA_ARBITRARY=1
-    - PMA_HOST=mariadb
+  # phpmyadmin:
+  #  image: phpmyadmin
+  #  restart: always
+  #  depends_on:
+  #    - mariadb
+  #  ports:
+  #   - ${PHPMYADMIN_PORT}:80
+  #  networks:
+  #   - laravel
+  #  environment:
+  #   - PMA_ARBITRARY=1
+  #   - PMA_HOST=mariadb
