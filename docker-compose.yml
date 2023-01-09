@@ -17,7 +17,7 @@ services:
     volumes:
       - ./src/:/var/www/html:delegated
       - ./dockerfiles/apache/logs:/var/log/apache2/
-      - ./dockerfiles/localhost/:/etc/letsencrypt/live/localhost/
+      - ./dockerfiles/localhost/:/etc/letsencrypt/live/${APP_FQDN}/
       - /etc/letsencrypt/:/etc/letsencrypt/
     depends_on:
       - mariadb
@@ -129,7 +129,7 @@ services:
       - ./src:/var/www/html:delegated
       - ./dockerfiles/nginx/logs:/var/log/nginx
       - ./dockerfiles/nginx/templates/:/etc/nginx/templates
-      - ./dockerfiles/localhost/:/etc/letsencrypt/live/localhost/
+      - ./dockerfiles/localhost/:/etc/letsencrypt/live/${APP_FQDN}/
       - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
       - ${NGINX_HTTP_PORT}:${NGINX_HTTP_PORT}
